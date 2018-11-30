@@ -12,7 +12,7 @@
 
 - Leave the directory and pull down your desired livecd-rootfs branch.
 - `cd` into the livecd-rootfs dir
-- `oldfashioned --series <series>`
+- `sudo -E oldfashioned --series <series>`
 
 ## To publish:
 
