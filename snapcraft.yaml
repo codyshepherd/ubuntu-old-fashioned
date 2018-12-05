@@ -1,6 +1,6 @@
 name: oldfashioned
 version: git
-summary: Ubuntu-Old-Fashioned
+summary: Ubuntu Old Fashioned Image Builder
 description: |
   This snap is meant to let you build ubuntu cloud images locally from a
   livecd-rootfs checkout.
@@ -10,7 +10,7 @@ confinement: classic
 architectures: [ all ]
 
 apps:
-  oldfashioned:
+  old-fashioned-image-build:
     command: old-fashioned-image-build
 
 parts:
@@ -18,9 +18,16 @@ parts:
     plugin: nil
     source: .
     source-type: git
+    build-packages:
+      - bzr
+      - python-ubuntutools
     override-build: |
       snapcraftctl build
-      cp ../../../old-fashioned-image-build ../../../prime
+
+      sed '/OLD_FASHIONED_BUILD_CACHE/ s|=.*|="$SNAPCRAFT_PART_INSTALL"|'
+
       sudo add-apt-repository -y ppa:launchpad/ppa
       sudo apt-get update
-      sudo apt-get install -y launchpad-buildd bzr python-ubuntutools
+      sudo apt-get install -y launchpad-buildd
+    prime:
+      - +old-fashioned-image-build
